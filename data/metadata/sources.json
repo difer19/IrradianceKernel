@@ -1,0 +1,20 @@
+{
+  "downloaded_on": "2026-09-19",
+  "datasets": {
+    "landsat": {
+      "url": "https://raw.githubusercontent.com/magohector/fkernel/master/Experimentos/landsat_model.csv",
+      "sha256": "07dc9e7cce399551c635fc3334d29dfa4f52ac99c2e5007c38b2785b4dd8f275",
+      "rows": 434
+    },
+    "modis": {
+      "url": "https://raw.githubusercontent.com/magohector/fkernel/master/Experimentos/modis_model.csv",
+      "sha256": "4dfaf359534467ac243aa76edabd0e422137548d540a23a5aef16bd41e4e261a",
+      "rows": 445
+    }
+  },
+  "reference_code": {
+    "repository": "https://github.com/magohector/fkernel/tree/master/Experimentos",
+    "files": ["KSVM.py", "KANN.py", "KernelUtilities.py"],
+    "note": "Copias de referencia sin modificar. La adaptación compatible está en src/irradiance_kernel/."
+  }
+}
