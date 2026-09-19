@@ -6,4 +6,4 @@ La implementación de `src/irradiance_kernel/` es una adaptación educativa para
 
 Referencia metodológica: D.-M. Pachajoa, H.-A. Mora-Paz y D. Mayorca-Torres, “Comparison of Kernel Functions in the Classification of Irradiance Zones from Multispectral Satellite Images”, Revista Facultad de Ingeniería, vol. 30, núm. 58, 2021. DOI: 10.19053/01211129.v30.n58.2021.13845.
 
-El notebook orientativo `Regressor.ipynb` declara sus celdas de implementación bajo GNU GPL. Para preservar compatibilidad con ese material y dejar explícitas las condiciones de redistribución, este proyecto se publica bajo GNU General Public License v3.0; el texto íntegro se encuentra en `LICENSE`.
+El código original declara sus implementaciones bajo GNU GPL. Para preservar compatibilidad con ese material y dejar explícitas las condiciones de redistribución, este proyecto se publica bajo GNU General Public License v3.0; el texto íntegro se encuentra en `LICENSE`.
