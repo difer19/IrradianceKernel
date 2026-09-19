@@ -50,6 +50,20 @@ No se optimizan hiperparámetros. Los resultados comparan los parámetros fijos 
 
 Los resultados quedan en `artifacts/*_cv_results.csv`; los tres ganadores por satélite, sus gráficas y el manifiesto quedan en `artifacts/models`, `artifacts/reports` y `artifacts/manifest.json`.
 
+Al terminar también se generan diagnósticos que no modifican la selección:
+
+- F1, precisión, recall y soporte por clase.
+- Comparación con un `DummyClassifier` de clase mayoritaria.
+- `balanced_accuracy` y menor F1 individual.
+- Mejor configuración dentro de cada discretizador.
+- Validación espacial de tres zonas sobre el 80% de desarrollo.
+
+Si los modelos ya existen, estos informes se pueden reconstruir sin repetir las 1.296 configuraciones:
+
+```bash
+../bin/python scripts/build_diagnostics.py
+```
+
 ## 5. Ejecutar la aplicación
 
 Después de generar los artefactos:
@@ -58,7 +72,7 @@ Después de generar los artefactos:
 ../bin/python app/app.py
 ```
 
-Abra [http://127.0.0.1:5000](http://127.0.0.1:5000). Los selectores solo permiten comparar modelos del mismo satélite. Un clic sobre cualquier mapa consulta la observación más cercana; no se realiza interpolación espacial.
+Abra [http://127.0.0.1:5000](http://127.0.0.1:5000). Los selectores solo permiten comparar modelos del mismo satélite. La interfaz muestra métricas globales, F1 por clase y línea base. Un clic sobre cualquier mapa consulta la observación más cercana y muestra clase predicha, clase observada y si fue un acierto; no se realiza interpolación espacial.
 
 El contorno oficial de Nariño se dibuja únicamente como referencia geográfica. Los colores representan predicciones en observaciones reales, no una estimación continua entre puntos, porque la salida de este proyecto es categórica.
 

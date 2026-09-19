@@ -24,8 +24,10 @@ from sklearn.metrics import (
     accuracy_score,
     auc,
     average_precision_score,
+    balanced_accuracy_score,
     f1_score,
     matthews_corrcoef,
+    precision_recall_fscore_support,
     precision_recall_curve,
     roc_auc_score,
     roc_curve,
@@ -77,15 +79,34 @@ def _multiclass_auc(y_true, scores, score_classes) -> float:
     return float(np.mean(values)) if values else float("nan")
 
 
-def metric_bundle(y_true, y_pred, scores=None, score_classes=None) -> dict:
+def metric_bundle(y_true, y_pred, scores=None, score_classes=None, *, detailed=False) -> dict:
+    labels = np.union1d(y_true, y_pred)
+    precision, recall, class_f1, support = precision_recall_fscore_support(
+        y_true, y_pred, labels=labels, zero_division=0
+    )
     metrics = {
         "accuracy": float(accuracy_score(y_true, y_pred)),
+        "balanced_accuracy": float(balanced_accuracy_score(y_true, y_pred)),
         "f1_macro": float(f1_score(y_true, y_pred, average="macro", zero_division=0)),
+        "min_class_f1": float(class_f1.min()) if class_f1.size else float("nan"),
         "mcc": float(matthews_corrcoef(y_true, y_pred)),
         "auc_ovr_macro": float("nan"),
     }
     if scores is not None and score_classes is not None:
         metrics["auc_ovr_macro"] = _multiclass_auc(y_true, scores, score_classes)
+    if detailed:
+        metrics["per_class"] = [
+            {
+                "label": int(label),
+                "support": int(class_support),
+                "precision": float(class_precision),
+                "recall": float(class_recall),
+                "f1": float(label_f1),
+            }
+            for label, class_support, class_precision, class_recall, label_f1 in zip(
+                labels, support, precision, recall, class_f1
+            )
+        ]
     return metrics
 
 
@@ -125,7 +146,17 @@ def evaluate_configuration(config, X_train, y_train, splits) -> dict:
             fold_rows.append(row)
         folds = pd.DataFrame(fold_rows)
         config_data.update({"status": "ok", "error": ""})
-        for metric in ["accuracy", "f1_macro", "mcc", "auc_ovr_macro", "fit_seconds", "score_seconds", "n_classes"]:
+        for metric in [
+            "accuracy",
+            "balanced_accuracy",
+            "f1_macro",
+            "min_class_f1",
+            "mcc",
+            "auc_ovr_macro",
+            "fit_seconds",
+            "score_seconds",
+            "n_classes",
+        ]:
             config_data[f"{metric}_mean"] = float(folds[metric].mean())
             config_data[f"{metric}_std"] = float(folds[metric].std(ddof=0))
     except Exception as exc:  # El informe debe conservar fallos de configuraciones individuales.
@@ -262,7 +293,9 @@ def run_dataset_experiments(
             scores = estimator.decision_function(X[holdout_indices])
         except Exception:
             continue
-        holdout_metrics = metric_bundle(y_holdout, predictions, scores, estimator.classes_)
+        holdout_metrics = metric_bundle(
+            y_holdout, predictions, scores, estimator.classes_, detailed=True
+        )
         slug = _slug(dataset, rank, config)
         model_path = model_dir / f"{slug}.joblib"
         confusion_path = report_dir / f"{slug}-confusion.png"
@@ -334,4 +367,7 @@ def run_all_experiments(*, n_jobs: int = 1, max_configs: int | None = None) -> d
     }
     manifest_path = ARTIFACT_DIR / "manifest.json"
     manifest_path.write_text(json.dumps(_safe_json(payload), indent=2, ensure_ascii=False), encoding="utf-8")
-    return payload
+    # Los diagnósticos se calculan después de cerrar la selección y nunca alteran el ranking.
+    from .diagnostics import build_diagnostics
+
+    return build_diagnostics(ARTIFACT_DIR)

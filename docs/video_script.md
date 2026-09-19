@@ -16,13 +16,13 @@ Abrir la aplicación, elegir `LANDSAT` y señalar los tres modelos disponibles. 
 
 Mostrar ambos mapas, sus colores de clase y clicar una ubicación.
 
-“Cada punto es una observación real, no una superficie interpolada. Al hacer clic se busca el punto observado más cercano y se muestran su irradiancia, la distancia y la clase asignada por cada modelo.”
+“Cada punto es una observación real, no una superficie interpolada. Al hacer clic se busca el punto observado más cercano y se muestran su irradiancia, la clase predicha, la clase observada y si cada modelo acertó.”
 
 ## 1:00–1:20 — Métricas
 
-Desplazarse a Accuracy, F1 macro, MCC, AUC, matrices de confusión y curvas.
+Desplazarse a Accuracy, balanced accuracy, F1 macro, menor F1 de clase, MCC, AUC, F1 por clase, matrices de confusión y curvas.
 
-“La comparación no depende únicamente de accuracy: usamos F1 macro como criterio principal, MCC y AUC como medidas complementarias.”
+“La comparación no depende únicamente de accuracy: usamos F1 macro como criterio principal y mostramos la clase más débil y una línea base ingenua. La validación espacial adicional comprueba cuánto baja el desempeño al dejar zonas completas fuera.”
 
 ## 1:20–1:30 — Cierre
 

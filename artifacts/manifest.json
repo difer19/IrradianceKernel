@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "created_with": {
     "python": "3.12.14",
     "numpy": "2.5.2",
@@ -42,9 +42,41 @@
       },
       "holdout_metrics": {
         "accuracy": 0.8850574712643678,
+        "balanced_accuracy": 0.7002314814814815,
         "f1_macro": 0.6646685010482181,
+        "min_class_f1": 0.0,
         "mcc": 0.8158240362626284,
-        "auc_ovr_macro": 0.8790325078695331
+        "auc_ovr_macro": 0.8790325078695331,
+        "per_class": [
+          {
+            "label": 0,
+            "support": 45,
+            "precision": 0.8823529411764706,
+            "recall": 1.0,
+            "f1": 0.9375
+          },
+          {
+            "label": 1,
+            "support": 7,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          {
+            "label": 2,
+            "support": 8,
+            "precision": 0.7,
+            "recall": 0.875,
+            "f1": 0.7777777777777778
+          },
+          {
+            "label": 3,
+            "support": 27,
+            "precision": 0.9615384615384616,
+            "recall": 0.9259259259259259,
+            "f1": 0.9433962264150944
+          }
+        ]
       },
       "classes": [
         {
@@ -81,7 +113,8 @@
       "files": {
         "model": "artifacts/models/landsat-top1-ksvc-poly-dbscan-normalizer-lda.joblib",
         "confusion": "artifacts/reports/landsat-top1-ksvc-poly-dbscan-normalizer-lda-confusion.png",
-        "curve": "artifacts/reports/landsat-top1-ksvc-poly-dbscan-normalizer-lda-curve.png"
+        "curve": "artifacts/reports/landsat-top1-ksvc-poly-dbscan-normalizer-lda-curve.png",
+        "class_f1": "artifacts/reports/landsat-top1-ksvc-poly-dbscan-normalizer-lda-class-f1.png"
       },
       "curve_type": "precision_recall",
       "train_rows": [
@@ -521,7 +554,28 @@
         170,
         389,
         387
-      ]
+      ],
+      "baseline_metrics": {
+        "accuracy": 0.5172413793103449,
+        "balanced_accuracy": 0.25,
+        "f1_macro": 0.17045454545454544,
+        "min_class_f1": 0.0,
+        "mcc": 0.0
+      },
+      "spatial_cv_metrics": {
+        "accuracy": 0.8576978576978577,
+        "accuracy_std": 0.06779608365247451,
+        "balanced_accuracy": 0.43956575787695334,
+        "balanced_accuracy_std": 0.0859687069390902,
+        "f1_macro": 0.37145910792968584,
+        "f1_macro_std": 0.08225267686971983,
+        "min_class_f1": 0.0,
+        "min_class_f1_std": 0.0,
+        "mcc": 0.2563258861779738,
+        "mcc_std": 0.07182102846339729,
+        "auc_ovr_macro": 0.7437875480747426,
+        "auc_ovr_macro_std": 0.10511010659129512
+      }
     },
     {
       "id": "landsat-top2-ksvc-poly-kmeans-normalizer-lda",
@@ -544,9 +598,48 @@
       },
       "holdout_metrics": {
         "accuracy": 0.632183908045977,
+        "balanced_accuracy": 0.6249675324675324,
         "f1_macro": 0.6332753357753358,
+        "min_class_f1": 0.5777777777777777,
         "mcc": 0.5204402501866578,
-        "auc_ovr_macro": 0.8971766939372573
+        "auc_ovr_macro": 0.8971766939372573,
+        "per_class": [
+          {
+            "label": 0,
+            "support": 22,
+            "precision": 0.5652173913043478,
+            "recall": 0.5909090909090909,
+            "f1": 0.5777777777777777
+          },
+          {
+            "label": 1,
+            "support": 27,
+            "precision": 0.6206896551724138,
+            "recall": 0.6666666666666666,
+            "f1": 0.6428571428571429
+          },
+          {
+            "label": 2,
+            "support": 7,
+            "precision": 0.6666666666666666,
+            "recall": 0.5714285714285714,
+            "f1": 0.6153846153846154
+          },
+          {
+            "label": 3,
+            "support": 16,
+            "precision": 0.75,
+            "recall": 0.5625,
+            "f1": 0.6428571428571429
+          },
+          {
+            "label": 4,
+            "support": 15,
+            "precision": 0.6470588235294118,
+            "recall": 0.7333333333333333,
+            "f1": 0.6875
+          }
+        ]
       },
       "classes": [
         {
@@ -589,7 +682,8 @@
       "files": {
         "model": "artifacts/models/landsat-top2-ksvc-poly-kmeans-normalizer-lda.joblib",
         "confusion": "artifacts/reports/landsat-top2-ksvc-poly-kmeans-normalizer-lda-confusion.png",
-        "curve": "artifacts/reports/landsat-top2-ksvc-poly-kmeans-normalizer-lda-curve.png"
+        "curve": "artifacts/reports/landsat-top2-ksvc-poly-kmeans-normalizer-lda-curve.png",
+        "class_f1": "artifacts/reports/landsat-top2-ksvc-poly-kmeans-normalizer-lda-class-f1.png"
       },
       "curve_type": "precision_recall",
       "train_rows": [
@@ -1029,7 +1123,28 @@
         170,
         389,
         387
-      ]
+      ],
+      "baseline_metrics": {
+        "accuracy": 0.3103448275862069,
+        "balanced_accuracy": 0.2,
+        "f1_macro": 0.09473684210526315,
+        "min_class_f1": 0.0,
+        "mcc": 0.0
+      },
+      "spatial_cv_metrics": {
+        "accuracy": 0.711066711066711,
+        "accuracy_std": 0.15272203506376106,
+        "balanced_accuracy": 0.5118857791268657,
+        "balanced_accuracy_std": 0.13800198964965832,
+        "f1_macro": 0.4615601216470708,
+        "f1_macro_std": 0.07150706882824537,
+        "min_class_f1": 0.07675070028011205,
+        "min_class_f1_std": 0.07112419357254555,
+        "mcc": 0.28365720466572936,
+        "mcc_std": 0.029778180213273293,
+        "auc_ovr_macro": 0.7198196886289931,
+        "auc_ovr_macro_std": 0.07559848444477771
+      }
     },
     {
       "id": "landsat-top3-ksvc-poly-agglomerative-normalizer-lda",
@@ -1052,9 +1167,48 @@
       },
       "holdout_metrics": {
         "accuracy": 0.7471264367816092,
+        "balanced_accuracy": 0.5523892773892773,
         "f1_macro": 0.537344537815126,
+        "min_class_f1": 0.23529411764705882,
         "mcc": 0.5957187483539159,
-        "auc_ovr_macro": 0.895857017011697
+        "auc_ovr_macro": 0.895857017011697,
+        "per_class": [
+          {
+            "label": 0,
+            "support": 49,
+            "precision": 0.9607843137254902,
+            "recall": 1.0,
+            "f1": 0.98
+          },
+          {
+            "label": 1,
+            "support": 6,
+            "precision": 0.5,
+            "recall": 0.6666666666666666,
+            "f1": 0.5714285714285714
+          },
+          {
+            "label": 2,
+            "support": 11,
+            "precision": 0.3333333333333333,
+            "recall": 0.18181818181818182,
+            "f1": 0.23529411764705882
+          },
+          {
+            "label": 3,
+            "support": 13,
+            "precision": 0.4666666666666667,
+            "recall": 0.5384615384615384,
+            "f1": 0.5
+          },
+          {
+            "label": 4,
+            "support": 8,
+            "precision": 0.42857142857142855,
+            "recall": 0.375,
+            "f1": 0.4
+          }
+        ]
       },
       "classes": [
         {
@@ -1097,7 +1251,8 @@
       "files": {
         "model": "artifacts/models/landsat-top3-ksvc-poly-agglomerative-normalizer-lda.joblib",
         "confusion": "artifacts/reports/landsat-top3-ksvc-poly-agglomerative-normalizer-lda-confusion.png",
-        "curve": "artifacts/reports/landsat-top3-ksvc-poly-agglomerative-normalizer-lda-curve.png"
+        "curve": "artifacts/reports/landsat-top3-ksvc-poly-agglomerative-normalizer-lda-curve.png",
+        "class_f1": "artifacts/reports/landsat-top3-ksvc-poly-agglomerative-normalizer-lda-class-f1.png"
       },
       "curve_type": "precision_recall",
       "train_rows": [
@@ -1537,7 +1692,28 @@
         170,
         389,
         387
-      ]
+      ],
+      "baseline_metrics": {
+        "accuracy": 0.5632183908045977,
+        "balanced_accuracy": 0.2,
+        "f1_macro": 0.14411764705882352,
+        "min_class_f1": 0.0,
+        "mcc": 0.0
+      },
+      "spatial_cv_metrics": {
+        "accuracy": 0.7964701964701965,
+        "accuracy_std": 0.19471664402671132,
+        "balanced_accuracy": 0.4609173625409899,
+        "balanced_accuracy_std": 0.14772286142311628,
+        "f1_macro": 0.4096839062055368,
+        "f1_macro_std": 0.08370187792428181,
+        "min_class_f1": 0.0,
+        "min_class_f1_std": 0.0,
+        "mcc": 0.322123924145455,
+        "mcc_std": 0.06647870210937633,
+        "auc_ovr_macro": 0.7973099312462232,
+        "auc_ovr_macro_std": 0.06762971083968476
+      }
     },
     {
       "id": "modis-top1-ksvc-linear-kmeans-minmax-lda",
@@ -1560,9 +1736,48 @@
       },
       "holdout_metrics": {
         "accuracy": 0.6179775280898876,
+        "balanced_accuracy": 0.6263934341520548,
         "f1_macro": 0.6104673569168824,
+        "min_class_f1": 0.42105263157894735,
         "mcc": 0.5051059012944213,
-        "auc_ovr_macro": 0.8715555400169211
+        "auc_ovr_macro": 0.8715555400169211,
+        "per_class": [
+          {
+            "label": 0,
+            "support": 29,
+            "precision": 0.6842105263157895,
+            "recall": 0.4482758620689655,
+            "f1": 0.5416666666666666
+          },
+          {
+            "label": 1,
+            "support": 26,
+            "precision": 0.5428571428571428,
+            "recall": 0.7307692307692307,
+            "f1": 0.6229508196721312
+          },
+          {
+            "label": 2,
+            "support": 7,
+            "precision": 0.625,
+            "recall": 0.7142857142857143,
+            "f1": 0.6666666666666666
+          },
+          {
+            "label": 3,
+            "support": 11,
+            "precision": 0.5,
+            "recall": 0.36363636363636365,
+            "f1": 0.42105263157894735
+          },
+          {
+            "label": 4,
+            "support": 16,
+            "precision": 0.7368421052631579,
+            "recall": 0.875,
+            "f1": 0.8
+          }
+        ]
       },
       "classes": [
         {
@@ -1605,7 +1820,8 @@
       "files": {
         "model": "artifacts/models/modis-top1-ksvc-linear-kmeans-minmax-lda.joblib",
         "confusion": "artifacts/reports/modis-top1-ksvc-linear-kmeans-minmax-lda-confusion.png",
-        "curve": "artifacts/reports/modis-top1-ksvc-linear-kmeans-minmax-lda-curve.png"
+        "curve": "artifacts/reports/modis-top1-ksvc-linear-kmeans-minmax-lda-curve.png",
+        "class_f1": "artifacts/reports/modis-top1-ksvc-linear-kmeans-minmax-lda-class-f1.png"
       },
       "curve_type": "precision_recall",
       "train_rows": [
@@ -2056,7 +2272,28 @@
         9,
         125,
         419
-      ]
+      ],
+      "baseline_metrics": {
+        "accuracy": 0.29213483146067415,
+        "balanced_accuracy": 0.2,
+        "f1_macro": 0.09043478260869565,
+        "min_class_f1": 0.0,
+        "mcc": 0.0
+      },
+      "spatial_cv_metrics": {
+        "accuracy": 0.7289568772048556,
+        "accuracy_std": 0.27785917213100053,
+        "balanced_accuracy": 0.3839589169000934,
+        "balanced_accuracy_std": 0.10508742857643179,
+        "f1_macro": 0.26478823696502657,
+        "f1_macro_std": 0.04840071102655668,
+        "min_class_f1": 0.0,
+        "min_class_f1_std": 0.0,
+        "mcc": 0.2972593444153933,
+        "mcc_std": 0.12203709337615636,
+        "auc_ovr_macro": 0.6206635635964197,
+        "auc_ovr_macro_std": 0.10968695337755145
+      }
     },
     {
       "id": "modis-top2-ksvc-linear-kmeans-standard-lda",
@@ -2079,9 +2316,48 @@
       },
       "holdout_metrics": {
         "accuracy": 0.6179775280898876,
+        "balanced_accuracy": 0.6263934341520548,
         "f1_macro": 0.6104673569168824,
+        "min_class_f1": 0.42105263157894735,
         "mcc": 0.5051059012944213,
-        "auc_ovr_macro": 0.8715555400169211
+        "auc_ovr_macro": 0.8715555400169211,
+        "per_class": [
+          {
+            "label": 0,
+            "support": 29,
+            "precision": 0.6842105263157895,
+            "recall": 0.4482758620689655,
+            "f1": 0.5416666666666666
+          },
+          {
+            "label": 1,
+            "support": 26,
+            "precision": 0.5428571428571428,
+            "recall": 0.7307692307692307,
+            "f1": 0.6229508196721312
+          },
+          {
+            "label": 2,
+            "support": 7,
+            "precision": 0.625,
+            "recall": 0.7142857142857143,
+            "f1": 0.6666666666666666
+          },
+          {
+            "label": 3,
+            "support": 11,
+            "precision": 0.5,
+            "recall": 0.36363636363636365,
+            "f1": 0.42105263157894735
+          },
+          {
+            "label": 4,
+            "support": 16,
+            "precision": 0.7368421052631579,
+            "recall": 0.875,
+            "f1": 0.8
+          }
+        ]
       },
       "classes": [
         {
@@ -2124,7 +2400,8 @@
       "files": {
         "model": "artifacts/models/modis-top2-ksvc-linear-kmeans-standard-lda.joblib",
         "confusion": "artifacts/reports/modis-top2-ksvc-linear-kmeans-standard-lda-confusion.png",
-        "curve": "artifacts/reports/modis-top2-ksvc-linear-kmeans-standard-lda-curve.png"
+        "curve": "artifacts/reports/modis-top2-ksvc-linear-kmeans-standard-lda-curve.png",
+        "class_f1": "artifacts/reports/modis-top2-ksvc-linear-kmeans-standard-lda-class-f1.png"
       },
       "curve_type": "precision_recall",
       "train_rows": [
@@ -2575,7 +2852,28 @@
         9,
         125,
         419
-      ]
+      ],
+      "baseline_metrics": {
+        "accuracy": 0.29213483146067415,
+        "balanced_accuracy": 0.2,
+        "f1_macro": 0.09043478260869565,
+        "min_class_f1": 0.0,
+        "mcc": 0.0
+      },
+      "spatial_cv_metrics": {
+        "accuracy": 0.7289568772048556,
+        "accuracy_std": 0.27785917213100053,
+        "balanced_accuracy": 0.3839589169000934,
+        "balanced_accuracy_std": 0.10508742857643179,
+        "f1_macro": 0.26478823696502657,
+        "f1_macro_std": 0.04840071102655668,
+        "min_class_f1": 0.0,
+        "min_class_f1_std": 0.0,
+        "mcc": 0.2972593444153933,
+        "mcc_std": 0.12203709337615636,
+        "auc_ovr_macro": 0.6206635635964197,
+        "auc_ovr_macro_std": 0.10968695337755145
+      }
     },
     {
       "id": "modis-top3-ksvc-poly-kmeans-minmax-lda",
@@ -2598,9 +2896,48 @@
       },
       "holdout_metrics": {
         "accuracy": 0.6292134831460674,
+        "balanced_accuracy": 0.6131850907712977,
         "f1_macro": 0.6038404443524331,
+        "min_class_f1": 0.3157894736842105,
         "mcc": 0.5215949271575125,
-        "auc_ovr_macro": 0.8998685279220322
+        "auc_ovr_macro": 0.8998685279220322,
+        "per_class": [
+          {
+            "label": 0,
+            "support": 29,
+            "precision": 0.7777777777777778,
+            "recall": 0.4827586206896552,
+            "f1": 0.5957446808510638
+          },
+          {
+            "label": 1,
+            "support": 26,
+            "precision": 0.5789473684210527,
+            "recall": 0.8461538461538461,
+            "f1": 0.6875
+          },
+          {
+            "label": 2,
+            "support": 7,
+            "precision": 0.7142857142857143,
+            "recall": 0.7142857142857143,
+            "f1": 0.7142857142857143
+          },
+          {
+            "label": 3,
+            "support": 11,
+            "precision": 0.375,
+            "recall": 0.2727272727272727,
+            "f1": 0.3157894736842105
+          },
+          {
+            "label": 4,
+            "support": 16,
+            "precision": 0.6666666666666666,
+            "recall": 0.75,
+            "f1": 0.7058823529411765
+          }
+        ]
       },
       "classes": [
         {
@@ -2643,7 +2980,8 @@
       "files": {
         "model": "artifacts/models/modis-top3-ksvc-poly-kmeans-minmax-lda.joblib",
         "confusion": "artifacts/reports/modis-top3-ksvc-poly-kmeans-minmax-lda-confusion.png",
-        "curve": "artifacts/reports/modis-top3-ksvc-poly-kmeans-minmax-lda-curve.png"
+        "curve": "artifacts/reports/modis-top3-ksvc-poly-kmeans-minmax-lda-curve.png",
+        "class_f1": "artifacts/reports/modis-top3-ksvc-poly-kmeans-minmax-lda-class-f1.png"
       },
       "curve_type": "precision_recall",
       "train_rows": [
@@ -3094,11 +3432,41 @@
         9,
         125,
         419
-      ]
+      ],
+      "baseline_metrics": {
+        "accuracy": 0.29213483146067415,
+        "balanced_accuracy": 0.2,
+        "f1_macro": 0.09043478260869565,
+        "min_class_f1": 0.0,
+        "mcc": 0.0
+      },
+      "spatial_cv_metrics": {
+        "accuracy": 0.7025375044242969,
+        "accuracy_std": 0.2588616377437679,
+        "balanced_accuracy": 0.43408029878618115,
+        "balanced_accuracy_std": 0.09661127187051959,
+        "f1_macro": 0.3035488297874756,
+        "f1_macro_std": 0.02123181855946328,
+        "min_class_f1": 0.0,
+        "min_class_f1_std": 0.0,
+        "mcc": 0.25514125116670067,
+        "mcc_std": 0.06657623343023064,
+        "auc_ovr_macro": 0.6878108485127736,
+        "auc_ovr_macro_std": 0.12365671250566679
+      }
     }
   ],
   "result_files": {
     "landsat": "/home/difer/Documentos/machine-learning/ML/IrradianceKernel/artifacts/landsat_cv_results.csv",
     "modis": "/home/difer/Documentos/machine-learning/ML/IrradianceKernel/artifacts/modis_cv_results.csv"
+  },
+  "diagnostics": {
+    "note": "Diagnósticos posteriores a la selección; no cambian el ranking ni usan el holdout para elegir modelos.",
+    "baseline": "DummyClassifier(strategy='most_frequent')",
+    "spatial_validation": "GroupKFold de 3 zonas obtenidas con KMeans sobre las coordenadas del 80% de desarrollo.",
+    "files": {
+      "spatial_validation": "artifacts/spatial_validation.csv",
+      "leaderboard_by_discretizer": "artifacts/leaderboard_by_discretizer.csv"
+    }
   }
 }

@@ -146,11 +146,19 @@ def create_app(test_config=None):
         )
 
         def classification(metadata):
-            label = int(load_model(metadata["id"]).predict(features)[0])
+            estimator = load_model(metadata["id"])
+            label = int(estimator.predict(features)[0])
+            observed_label = int(estimator.transform_target(row[TARGET_COLUMN].to_numpy())[0])
             description = next(
                 (item for item in metadata["classes"] if int(item["label"]) == label), None
             )
-            return {"model_id": metadata["id"], "class": label, "description": description}
+            return {
+                "model_id": metadata["id"],
+                "class": label,
+                "observed_class": observed_label,
+                "is_correct": label == observed_label,
+                "description": description,
+            }
 
         return jsonify(
             {

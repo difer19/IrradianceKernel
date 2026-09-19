@@ -51,6 +51,8 @@ def test_routes(monkeypatch, tmp_path):
     )
     assert point.status_code == 200
     assert "classification_a" in point.get_json()
+    assert "observed_class" in point.get_json()["classification_a"]
+    assert "is_correct" in point.get_json()["classification_a"]
     invalid = client.get(
         "/api/point?satellite=landsat&lat=999&lon=0&model_a=model-1&model_b=model-2"
     )
