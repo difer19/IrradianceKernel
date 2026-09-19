@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Irradiance Kernel Lab</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2242%22 fill=%22%23087f75%22/><text x=%2250%22 y=%2262%22 text-anchor=%22middle%22 font-size=%2244%22 fill=%22white%22>K</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">LANDSAT · MODIS · NARIÑO</p>
+      <h1>Irradiance <span>Kernel Lab</span></h1>
+      <p class="subtitle">Compara cómo dos pipelines clasifican las mismas observaciones satelitales.</p>
+    </div>
+    <div class="hero-badge"><strong>9</strong><span>kernels</span></div>
+  </header>
+
+  <main>
+    <section class="controls panel">
+      <label>Satélite<select id="satellite"></select></label>
+      <label>Modelo A<select id="model-a"></select></label>
+      <label>Modelo B<select id="model-b"></select></label>
+      <button id="compare">Comparar modelos</button>
+    </section>
+
+    <div id="status" class="status">Cargando artefactos…</div>
+
+    <section class="maps-grid">
+      <article class="panel map-card"><div class="card-heading"><span>A</span><h2 id="title-a">Modelo A</h2></div><div id="map-a" class="map"></div></article>
+      <article class="panel map-card"><div class="card-heading"><span>B</span><h2 id="title-b">Modelo B</h2></div><div id="map-b" class="map"></div></article>
+    </section>
+
+    <section id="point-panel" class="panel point-panel hidden">
+      <div><p class="eyebrow">PUNTO OBSERVADO MÁS CERCANO</p><h2 id="point-location"></h2><p id="point-detail"></p></div>
+      <div class="point-result"><span>A</span><strong id="point-a"></strong><small id="range-a"></small></div>
+      <div class="point-result"><span>B</span><strong id="point-b"></strong><small id="range-b"></small></div>
+    </section>
+
+    <section class="panel metrics-panel">
+      <div class="section-title"><p class="eyebrow">HOLDOUT 20%</p><h2>Métricas de calidad</h2></div>
+      <div id="metrics" class="metrics-grid"></div>
+    </section>
+
+    <section class="reports-grid">
+      <article class="panel report"><h2>Modelo A</h2><img id="confusion-a" alt="Matriz de confusión del modelo A"><img id="curve-a" alt="Curva del modelo A"></article>
+      <article class="panel report"><h2>Modelo B</h2><img id="confusion-b" alt="Matriz de confusión del modelo B"><img id="curve-b" alt="Curva del modelo B"></article>
+    </section>
+  </main>
+  <footer>Proyecto educativo · Las zonas mostradas son observaciones, no una superficie interpolada.</footer>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
