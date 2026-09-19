@@ -15,6 +15,7 @@ DATASET_FILES = {
     "landsat": DATA_DIR / "landsat_model.csv",
     "modis": DATA_DIR / "modis_model.csv",
 }
+BOUNDARY_FILE = DATA_DIR.parent / "geography" / "narino_boundary.geojson"
 
 
 def sha256_file(path: str | Path) -> str:
@@ -37,6 +38,17 @@ def load_dataset(name: str) -> pd.DataFrame:
     if frame.isna().any().any():
         raise ValueError(f"El dataset {key} contiene valores ausentes")
     return frame
+
+
+def load_boundary() -> dict:
+    """Carga el límite administrativo de Nariño ya convertido a WGS84."""
+    import json
+
+    if not BOUNDARY_FILE.exists():
+        raise FileNotFoundError(
+            "Falta narino_boundary.geojson; ejecute scripts/convert_boundary.py"
+        )
+    return json.loads(BOUNDARY_FILE.read_text(encoding="utf-8"))
 
 
 def web_mercator_to_wgs84(x, y):

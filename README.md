@@ -28,7 +28,7 @@ También puede ejecutar sin activar el entorno usando `../bin/python`.
 
 Cada CSV contiene las columnas `latitude`, `longitude`, `band1`–`band7` y `value`. Aunque los encabezados dicen latitud/longitud, las dos primeras columnas son coordenadas proyectadas EPSG:3857 en metros. La aplicación las convierte a WGS84 para mostrarlas.
 
-Las URLs, fechas y checksums se encuentran en `data/metadata/sources.json`. Los archivos originales no se reescriben.
+Las URLs, fechas y checksums se encuentran en `data/metadata/sources.json`. Los archivos originales no se reescriben. También se conserva el límite departamental usado por el notebook de ejemplo y se genera una copia GeoJSON en WGS84 con `scripts/convert_boundary.py`.
 
 ## 4. Ejecutar los experimentos
 
@@ -60,9 +60,12 @@ Después de generar los artefactos:
 
 Abra [http://127.0.0.1:5000](http://127.0.0.1:5000). Los selectores solo permiten comparar modelos del mismo satélite. Un clic sobre cualquier mapa consulta la observación más cercana; no se realiza interpolación espacial.
 
+El contorno oficial de Nariño se dibuja únicamente como referencia geográfica. Los colores representan predicciones en observaciones reales, no una estimación continua entre puntos. Esta decisión sustituye el Kriging del notebook orientativo porque la salida de este proyecto es categórica.
+
 API disponible:
 
 - `GET /api/models`
+- `GET /api/boundary`
 - `GET /api/compare?model_a=...&model_b=...`
 - `GET /api/point?satellite=...&lat=...&lon=...&model_a=...&model_b=...`
 
@@ -80,7 +83,7 @@ API disponible:
 IrradianceKernel/
 ├── app/                 # Flask, interfaz y API
 ├── artifacts/           # Resultados, modelos y figuras
-├── data/                # CSV originales y metadatos
+├── data/                # CSV, límite geográfico y metadatos
 ├── docs/                # Atribución y guion del video
 ├── notebooks/           # Entregable de los puntos 1–4
 ├── references/original/ # Código original requerido
@@ -95,4 +98,4 @@ El guion de 90 segundos está en `docs/video_script.md`.
 - Video de YouTube: _añadir enlace después de grabarlo_.
 - Repositorio GitHub: _añadir URL después de publicarlo_.
 
-Consulte `docs/ATTRIBUTION.md` antes de redistribuir el código de referencia.
+El proyecto se distribuye bajo GPL-3.0; consulte `LICENSE` y `docs/ATTRIBUTION.md` antes de redistribuirlo.

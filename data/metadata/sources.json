@@ -16,5 +16,13 @@
     "repository": "https://github.com/magohector/fkernel/tree/master/Experimentos",
     "files": ["KSVM.py", "KANN.py", "KernelUtilities.py"],
     "note": "Copias de referencia sin modificar. La adaptación compatible está en src/irradiance_kernel/."
+  },
+  "geography": {
+    "source": "https://github.com/magohector/fkernel/tree/master/Experimentos/Kriking/narino",
+    "crs_original": "EPSG:3857",
+    "derived_file": "data/geography/narino_boundary.geojson",
+    "crs_derived": "EPSG:4326",
+    "shapefile_sha256": "05d4a5cf126abebf370287db986c16ef79075071c30b2e3890f8712c6ae13532",
+    "geojson_sha256": "427f427396b360d834d8bd3c2cfc065647b58e10d245e1e2d58bd0e8efdc5637"
   }
 }

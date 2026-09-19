@@ -43,6 +43,7 @@ def test_routes(monkeypatch, tmp_path):
     client = app.test_client()
     assert client.get("/").status_code == 200
     assert client.get("/api/models").status_code == 200
+    assert client.get("/api/boundary").status_code == 200
     comparison = client.get("/api/compare?model_a=model-1&model_b=model-2")
     assert comparison.status_code == 200
     point = client.get(

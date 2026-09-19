@@ -16,7 +16,12 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from irradiance_kernel.constants import FEATURE_COLUMNS, TARGET_COLUMN
-from irradiance_kernel.data import load_dataset, web_mercator_to_wgs84, wgs84_to_web_mercator
+from irradiance_kernel.data import (
+    load_boundary,
+    load_dataset,
+    web_mercator_to_wgs84,
+    wgs84_to_web_mercator,
+)
 
 
 def create_app(test_config=None):
@@ -95,6 +100,10 @@ def create_app(test_config=None):
                 "created_with": manifest.get("created_with", {}),
             }
         )
+
+    @app.get("/api/boundary")
+    def boundary_api():
+        return jsonify(load_boundary())
 
     @app.get("/api/compare")
     def compare_api():
