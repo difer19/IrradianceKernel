@@ -37,8 +37,8 @@
         "f1_macro": 0.6096451694084057,
         "mcc": 0.7050128030204389,
         "auc_ovr_macro": 0.8731265527529589,
-        "fit_seconds": 0.008760224667033375,
-        "score_seconds": 0.0008167380001395941
+        "fit_seconds": 0.012117957333733406,
+        "score_seconds": 0.0012489319997257553
       },
       "holdout_metrics": {
         "accuracy": 0.8850574712643678,
@@ -593,8 +593,8 @@
         "f1_macro": 0.6057332454078787,
         "mcc": 0.5270779193177321,
         "auc_ovr_macro": 0.8755414440063872,
-        "fit_seconds": 0.008303012000396848,
-        "score_seconds": 0.0010230013328206649
+        "fit_seconds": 0.03233055533322234,
+        "score_seconds": 0.0011400706665275113
       },
       "holdout_metrics": {
         "accuracy": 0.632183908045977,
@@ -1162,8 +1162,8 @@
         "f1_macro": 0.6038699445203782,
         "mcc": 0.5710155156733786,
         "auc_ovr_macro": 0.8759466341580436,
-        "fit_seconds": 0.0034849226661511543,
-        "score_seconds": 0.0012062186669936636
+        "fit_seconds": 0.0044933960001192945,
+        "score_seconds": 0.001483509333411348
       },
       "holdout_metrics": {
         "accuracy": 0.7471264367816092,
@@ -1716,11 +1716,11 @@
       }
     },
     {
-      "id": "modis-top1-ksvc-linear-kmeans-minmax-lda",
+      "id": "modis-top1-ksvc-linear-kmeans-standard-lda",
       "dataset": "modis",
       "rank": 1,
       "config": {
-        "scaler": "minmax",
+        "scaler": "standard",
         "discretizer": "kmeans",
         "reducer": "lda",
         "model": "ksvc",
@@ -1731,8 +1731,8 @@
         "f1_macro": 0.594764241596152,
         "mcc": 0.5166763113461724,
         "auc_ovr_macro": 0.8703525529266622,
-        "fit_seconds": 0.008371095666613352,
-        "score_seconds": 0.0007420353328294974
+        "fit_seconds": 0.021152848666436814,
+        "score_seconds": 0.0011150099999213126
       },
       "holdout_metrics": {
         "accuracy": 0.6179775280898876,
@@ -1818,10 +1818,10 @@
         "coef0": 0.0
       },
       "files": {
-        "model": "artifacts/models/modis-top1-ksvc-linear-kmeans-minmax-lda.joblib",
-        "confusion": "artifacts/reports/modis-top1-ksvc-linear-kmeans-minmax-lda-confusion.png",
-        "curve": "artifacts/reports/modis-top1-ksvc-linear-kmeans-minmax-lda-curve.png",
-        "class_f1": "artifacts/reports/modis-top1-ksvc-linear-kmeans-minmax-lda-class-f1.png"
+        "model": "artifacts/models/modis-top1-ksvc-linear-kmeans-standard-lda.joblib",
+        "confusion": "artifacts/reports/modis-top1-ksvc-linear-kmeans-standard-lda-confusion.png",
+        "curve": "artifacts/reports/modis-top1-ksvc-linear-kmeans-standard-lda-curve.png",
+        "class_f1": "artifacts/reports/modis-top1-ksvc-linear-kmeans-standard-lda-class-f1.png"
       },
       "curve_type": "precision_recall",
       "train_rows": [
@@ -2296,11 +2296,11 @@
       }
     },
     {
-      "id": "modis-top2-ksvc-linear-kmeans-standard-lda",
+      "id": "modis-top2-ksvc-linear-kmeans-minmax-lda",
       "dataset": "modis",
       "rank": 2,
       "config": {
-        "scaler": "standard",
+        "scaler": "minmax",
         "discretizer": "kmeans",
         "reducer": "lda",
         "model": "ksvc",
@@ -2311,8 +2311,8 @@
         "f1_macro": 0.594764241596152,
         "mcc": 0.5166763113461724,
         "auc_ovr_macro": 0.8703525529266622,
-        "fit_seconds": 0.013631081666365693,
-        "score_seconds": 0.00111882099978781
+        "fit_seconds": 0.04410877133341273,
+        "score_seconds": 0.0010825279999456445
       },
       "holdout_metrics": {
         "accuracy": 0.6179775280898876,
@@ -2398,10 +2398,10 @@
         "coef0": 0.0
       },
       "files": {
-        "model": "artifacts/models/modis-top2-ksvc-linear-kmeans-standard-lda.joblib",
-        "confusion": "artifacts/reports/modis-top2-ksvc-linear-kmeans-standard-lda-confusion.png",
-        "curve": "artifacts/reports/modis-top2-ksvc-linear-kmeans-standard-lda-curve.png",
-        "class_f1": "artifacts/reports/modis-top2-ksvc-linear-kmeans-standard-lda-class-f1.png"
+        "model": "artifacts/models/modis-top2-ksvc-linear-kmeans-minmax-lda.joblib",
+        "confusion": "artifacts/reports/modis-top2-ksvc-linear-kmeans-minmax-lda-confusion.png",
+        "curve": "artifacts/reports/modis-top2-ksvc-linear-kmeans-minmax-lda-curve.png",
+        "class_f1": "artifacts/reports/modis-top2-ksvc-linear-kmeans-minmax-lda-class-f1.png"
       },
       "curve_type": "precision_recall",
       "train_rows": [
@@ -2891,8 +2891,8 @@
         "f1_macro": 0.5916502584587775,
         "mcc": 0.5317497791273377,
         "auc_ovr_macro": 0.8862068794160782,
-        "fit_seconds": 0.00962353533335166,
-        "score_seconds": 0.0010152040000927325
+        "fit_seconds": 0.022529382666713598,
+        "score_seconds": 0.0011321160003111193
       },
       "holdout_metrics": {
         "accuracy": 0.6292134831460674,
