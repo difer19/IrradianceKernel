@@ -11,7 +11,11 @@ from sklearn.utils.validation import check_array, check_is_fitted, check_X_y
 
 from .constants import RANDOM_STATE
 from .discretizers import make_discretizer
-from .estimators import KANNC, KSVC, KRidgeClassifier
+from .estimators import KRidgeClassifier
+from .kernels import resolve_kernel
+from .original_estimators import KANNC, KSVC
+
+ORIGINAL_KERNEL_NAMES = {"canberra": "can", "truncated": "tru"}
 
 
 class IrradiancePipeline(ClassifierMixin, BaseEstimator):
@@ -42,12 +46,37 @@ class IrradiancePipeline(ClassifierMixin, BaseEstimator):
         except KeyError as exc:
             raise ValueError(f"Escalador desconocido: {self.scaler!r}") from exc
 
-    def _make_model(self):
+    def _make_model(self, X_train):
+        self.resolved_kernel_ = resolve_kernel(X_train, self.kernel, degree=2)
+        original_kernel = ORIGINAL_KERNEL_NAMES.get(self.kernel, self.kernel)
         options = {
-            "ksvc": lambda: KSVC(C=1.0, kernel=self.kernel, random_state=self.random_state),
-            "kannc": lambda: KANNC(kernel=self.kernel, random_state=self.random_state),
+            "ksvc": lambda: KSVC(
+                C=1.0,
+                kernel=original_kernel,
+                degree=self.resolved_kernel_.degree,
+                gamma=self.resolved_kernel_.gamma,
+                coef0=self.resolved_kernel_.coef0,
+                random_state=self.random_state,
+            ),
+            "kannc": lambda: KANNC(
+                hidden_layer_sizes=(100,),
+                activation="identity",
+                alpha=0.0001,
+                max_iter=1000,
+                early_stopping=True,
+                kernel=original_kernel,
+                degree=self.resolved_kernel_.degree,
+                gamma=self.resolved_kernel_.gamma,
+                coef0=self.resolved_kernel_.coef0,
+                random_state=self.random_state,
+            ),
             "kridge": lambda: KRidgeClassifier(
-                alpha=1.0, kernel=self.kernel, random_state=self.random_state
+                alpha=1.0,
+                kernel=self.kernel,
+                degree=self.resolved_kernel_.degree,
+                gamma=self.resolved_kernel_.gamma,
+                coef0=self.resolved_kernel_.coef0,
+                random_state=self.random_state,
             ),
         }
         try:
@@ -72,7 +101,7 @@ class IrradiancePipeline(ClassifierMixin, BaseEstimator):
             reduced = self.reducer_.fit_transform(scaled, y_labels)
         else:
             raise ValueError(f"Reductor desconocido: {self.reducer!r}")
-        self.model_ = self._make_model()
+        self.model_ = self._make_model(reduced)
         self.model_.fit(reduced, y_labels)
         self.classes_ = self.model_.classes_
         self.n_features_in_ = X_checked.shape[1]
@@ -89,6 +118,8 @@ class IrradiancePipeline(ClassifierMixin, BaseEstimator):
 
     def predict_proba(self, X):
         transformed = self._transform_features(X)
+        if isinstance(self.model_, KANNC):
+            return self.model_.predict_proba(self.model_.mtransform(transformed))
         if hasattr(self.model_, "predict_proba"):
             return self.model_.predict_proba(transformed)
         scores = self.model_.decision_function(transformed)
@@ -98,8 +129,16 @@ class IrradiancePipeline(ClassifierMixin, BaseEstimator):
 
     def decision_function(self, X):
         transformed = self._transform_features(X)
+        if isinstance(self.model_, KANNC):
+            probabilities = np.clip(
+                self.model_.predict_proba(self.model_.mtransform(transformed)), 1e-12, 1.0
+            )
+            return np.log(probabilities)
         if hasattr(self.model_, "decision_function"):
-            return self.model_.decision_function(transformed)
+            scores = self.model_.decision_function(transformed)
+            if np.ndim(scores) == 1:
+                scores = np.column_stack([-scores, scores])
+            return scores
         return np.log(np.clip(self.model_.predict_proba(transformed), 1e-12, 1.0))
 
     def transform_target(self, y):
@@ -107,5 +146,5 @@ class IrradiancePipeline(ClassifierMixin, BaseEstimator):
         return self.discretizer_.transform(y)
 
     def resolved_kernel(self) -> dict:
-        check_is_fitted(self, "model_")
-        return self.model_.resolved_kernel_.as_dict()
+        check_is_fitted(self, "resolved_kernel_")
+        return self.resolved_kernel_.as_dict()

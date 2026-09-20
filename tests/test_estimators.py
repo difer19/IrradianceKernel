@@ -17,8 +17,8 @@ def classification_data():
 @pytest.mark.parametrize(
     "estimator",
     [
-        KSVC(kernel="rbf"),
-        KANNC(kernel="rbf", max_iter=80, n_components=30),
+        KSVC(kernel="rbf", gamma=0.2, random_state=2021),
+        KANNC(kernel="linear", max_iter=80, random_state=2021),
         KRidgeClassifier(kernel="rbf"),
     ],
 )
@@ -27,7 +27,8 @@ def test_estimators_clone_predict_and_serialize(estimator, classification_data, 
     fitted = clone(estimator).fit(X, y)
     predictions = fitted.predict(X[:8])
     assert predictions.shape == (8,)
-    assert fitted.decision_function(X[:8]).shape == (8, len(fitted.classes_))
+    if hasattr(fitted, "decision_function"):
+        assert fitted.decision_function(X[:8]).shape == (8, len(fitted.classes_))
     path = tmp_path / "model.joblib"
     joblib.dump(fitted, path)
     restored = joblib.load(path)

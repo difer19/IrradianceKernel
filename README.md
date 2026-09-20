@@ -24,6 +24,15 @@ También puede ejecutar sin activar el entorno usando `../bin/python`.
 5. Ejecute la matriz completa y compare los resultados del notebook.
 6. Inicie Flask y explore los modelos seleccionados.
 
+Para comprobar de manera independiente que se usan las clases originales sin modificarlas:
+
+```bash
+../bin/python scripts/verify_original_estimators.py
+../bin/python scripts/smoke_original_pipeline.py
+```
+
+El primer comando verifica los SHA-256 e importa `KSVC` desde `KSVM.py` y `KANNC` desde `KANN.py`. El segundo prueba los tres modelos con los nueve kernels sin sobrescribir resultados ni artefactos finales.
+
 ## 3. Datos
 
 Cada CSV contiene las columnas `latitude`, `longitude`, `band1`–`band7` y `value`. Aunque los encabezados dicen latitud/longitud, las dos primeras columnas son coordenadas proyectadas EPSG:3857 en metros. La aplicación las convierte a WGS84 para mostrarlas.

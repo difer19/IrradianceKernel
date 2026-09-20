@@ -32,3 +32,18 @@ def test_validation_values_do_not_define_uniform_edges():
     estimator = IrradiancePipeline().fit(X[:100], y[:100])
     assert estimator.discretizer_.edges_[0] == pytest.approx(y[:100].min())
     assert estimator.discretizer_.edges_[-1] == pytest.approx(y[:100].max())
+
+
+@pytest.mark.parametrize("model,module", [("ksvc", "KSVM"), ("kannc", "KANN")])
+def test_pipeline_uses_original_repository_classes(model, module):
+    frame = load_dataset("landsat").iloc[:160]
+    X = frame.drop(columns="value").to_numpy()
+    y = frame["value"].to_numpy()
+    fitted = IrradiancePipeline(
+        scaler="standard",
+        discretizer="uniform",
+        reducer="pca",
+        model=model,
+        kernel="linear",
+    ).fit(X[:130], y[:130])
+    assert type(fitted.model_).__module__ == module
