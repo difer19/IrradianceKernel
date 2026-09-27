@@ -74,6 +74,25 @@ También se puede generar una copia ejecutada con `nbconvert`:
 La última sección del notebook reentrena los ganadores con el 80 % de cada
 dataset y guarda `models/landsat_best.joblib` y `models/modis_best.joblib`.
 
+## Ejecutar en Google Colab
+
+Se puede abrir directamente desde
+[Google Colab](https://colab.research.google.com/github/difer19/IrradianceKernel/blob/main/notebook/Classification/Clasification.ipynb).
+La primera sección del notebook detecta que se está ejecutando en Colab, clona
+el repositorio en `/content/IrradianceKernel` y cambia a esa carpeta antes de
+cargar los CSV.
+
+Si Colab informa que falta alguna dependencia, ejecutar una vez en una celda:
+
+```python
+%pip install -q pandas numpy scikit-learn matplotlib joblib
+```
+
+Después se ejecutan las celdas en orden. La evaluación completa (`RUN_FULL_GRID
+= True`) recorre 648 configuraciones por satélite y puede tardar; para una
+prueba rápida se puede cambiar temporalmente a `False` en la celda de
+evaluación y volver a dejarlo en `True` para la entrega final.
+
 ## Ejecutar la aplicación web
 
 Desde la raíz de `IrradianceKernel`:
