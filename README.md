@@ -1,124 +1,132 @@
-# Irradiance Kernel Lab
+# IrradianceKernel
 
-Proyecto educativo para comparar funciones kernel en la clasificación de irradiancia usando observaciones Landsat y MODIS de Nariño, Colombia. Incluye un notebook explicado, 1.296 estructuras experimentales, seis modelos finales y una aplicación Flask de comparación geográfica.
+Clasificación de irradiancia con funciones kernel usando observaciones de los
+satélites Landsat y MODIS. El proyecto contiene el notebook de los puntos 1–5
+y una aplicación Flask para el punto 6.
 
-## 1. Preparar el entorno
+## Entregables
 
-Este proyecto vive dentro del entorno virtual de la carpeta `ML`. Desde esa carpeta:
+- **Puntos 1–5:** `notebook/Classification/Clasification.ipynb`.
+  Cada bloque comienza con un encabezado Markdown que identifica el punto del
+  enunciado: carga de datos, clases originales `KSVC`/`KANNC`,
+  `KRidgeClassifier`, campo de pipelines y evaluación.
+- **Punto 6:** `web/`, junto con los modelos finales de `models/`.
+- **Video:** guion de demostración de 1–2 minutos en
+  [`docs/video_script.md`](docs/video_script.md). El enlace de YouTube se debe
+  añadir después de grabar el video.
 
-```bash
-source bin/activate
-cd IrradianceKernel
-python --version  # debe mostrar Python 3.12.x
-python -m pip install -r requirements.txt
-```
-
-También puede ejecutar sin activar el entorno usando `../bin/python`.
-
-## 2. Recorrido didáctico
-
-1. Abra `notebooks/irradiance_kernel_comparison.ipynb` y ejecute las secciones de contexto, datos y discretización.
-2. Revise `src/irradiance_kernel/kernels.py`, donde las nueve funciones producen matrices Gram.
-3. Revise `estimators.py`: `KSVC`, `KANNC` y el nuevo `KRidgeClassifier` comparten una API de clasificación.
-4. Observe en `pipeline.py` que el discretizador se ajusta dentro de `fit`; por eso el fold de validación nunca define sus clases.
-5. Ejecute la matriz completa y compare los resultados del notebook.
-6. Inicie Flask y explore los modelos seleccionados.
-
-Para comprobar de manera independiente que se usan las clases originales sin modificarlas:
-
-```bash
-../bin/python scripts/verify_original_estimators.py
-../bin/python scripts/smoke_original_pipeline.py
-```
-
-El primer comando verifica los SHA-256 e importa `KSVC` desde `KSVM.py` y `KANNC` desde `KANN.py`. El segundo prueba los tres modelos con los nueve kernels sin sobrescribir resultados ni artefactos finales.
-
-## 3. Datos
-
-Cada CSV contiene las columnas `latitude`, `longitude`, `band1`–`band7` y `value`. Aunque los encabezados dicen latitud/longitud, las dos primeras columnas son coordenadas proyectadas EPSG:3857 en metros. La aplicación las convierte a WGS84 para mostrarlas.
-
-Las URLs, fechas y checksums se encuentran en `data/metadata/sources.json`. Los archivos originales no se reescriben. También se conserva el límite departamental de Nariño y se genera una copia GeoJSON en WGS84 con `scripts/convert_boundary.py`.
-
-## 4. Ejecutar los experimentos
-
-Diagnóstico corto:
-
-```bash
-../bin/python run_experiments.py --max-configs 12 --jobs 1
-```
-
-Matriz completa (648 configuraciones por dataset):
-
-```bash
-../bin/python run_experiments.py --jobs 4
-```
-
-Se usa un holdout fijo del 20% y KFold de tres particiones sobre el 80% restante. Toda transformación, incluida la discretización de la irradiancia, se ajusta dentro del fold. La selección usa F1 macro, seguida por MCC, AUC, accuracy y tiempo.
-
-No se optimizan hiperparámetros. Los resultados comparan los parámetros fijos documentados y no deben interpretarse como el máximo rendimiento posible de cada algoritmo.
-
-Los resultados quedan en `artifacts/*_cv_results.csv`; los tres ganadores por satélite, sus gráficas y el manifiesto quedan en `artifacts/models`, `artifacts/reports` y `artifacts/manifest.json`.
-
-Al terminar también se generan diagnósticos que no modifican la selección:
-
-- F1, precisión, recall y soporte por clase.
-- Comparación con un `DummyClassifier` de clase mayoritaria.
-- `balanced_accuracy` y menor F1 individual.
-- Mejor configuración dentro de cada discretizador.
-- Validación espacial de tres zonas sobre el 80% de desarrollo.
-
-Si los modelos ya existen, estos informes se pueden reconstruir sin repetir las 1.296 configuraciones:
-
-```bash
-../bin/python scripts/build_diagnostics.py
-```
-
-## 5. Ejecutar la aplicación
-
-Después de generar los artefactos:
-
-```bash
-../bin/python app/app.py
-```
-
-Abra [http://127.0.0.1:5000](http://127.0.0.1:5000). Los selectores solo permiten comparar modelos del mismo satélite. La interfaz muestra métricas globales, F1 por clase y línea base. Un clic sobre cualquier mapa consulta la observación más cercana y muestra clase predicha, clase observada y si fue un acierto; no se realiza interpolación espacial.
-
-El contorno oficial de Nariño se dibuja únicamente como referencia geográfica. Los colores representan predicciones en observaciones reales, no una estimación continua entre puntos, porque la salida de este proyecto es categórica.
-
-API disponible:
-
-- `GET /api/models`
-- `GET /api/boundary`
-- `GET /api/compare?model_a=...&model_b=...`
-- `GET /api/point?satellite=...&lat=...&lon=...&model_a=...&model_b=...`
-
-## 6. Verificación
-
-```bash
-../bin/python -m pytest
-../bin/python -m compileall src app
-../bin/jupyter nbconvert --to notebook --execute notebooks/irradiance_kernel_comparison.ipynb --output /tmp/irradiance-verified.ipynb --ExecutePreprocessor.timeout=600
-```
-
-## 7. Estructura
+## Estructura
 
 ```text
 IrradianceKernel/
-├── app/                 # Flask, interfaz y API
-├── artifacts/           # Resultados, modelos y figuras
-├── data/                # CSV, límite geográfico y metadatos
-├── docs/                # Atribución y guion del video
-├── notebooks/           # Entregable de los puntos 1–4
-├── references/original/ # Código original requerido
-├── src/                 # Implementación reproducible
-└── tests/               # Pruebas automatizadas
+├── datasets/                         CSV originales Landsat y MODIS
+├── models/                           artefactos joblib usados por la web
+├── notebook/Classification/           notebook de los puntos 1–5
+├── notebook/Regression/               notebook orientativo existente
+├── web/                               aplicación Flask del punto 6
+├── docs/video_script.md               guion para el video
+├── requirements.txt                   dependencias reproducibles
+└── README.md
 ```
 
-## 8. Video y publicación
+## Requisitos
 
-El guion de 90 segundos está en `docs/video_script.md`.
+- Python 3.12.
+- El entorno del curso disponible en `../bin/python` cuando se ejecuta desde
+  la carpeta `IrradianceKernel`.
+- Conexión a internet para mostrar las teselas de Esri u OpenStreetMap en el
+  mapa. Los modelos y los datos se cargan localmente.
 
-- Video de YouTube: _añadir enlace después de grabarlo_.
-- Repositorio GitHub: _añadir URL después de publicarlo_.
+Instalación desde la raíz del proyecto:
 
-El proyecto se distribuye bajo GPL-3.0; consulte `LICENSE` y `docs/ATTRIBUTION.md` antes de redistribuirlo.
+```bash
+cd IrradianceKernel
+../bin/python -m pip install -r requirements.txt
+```
+
+Si se utiliza otro entorno virtual, se puede sustituir `../bin/python` por el
+ejecutable de ese entorno.
+
+## Ejecutar el notebook
+
+Abrir Jupyter desde `IrradianceKernel`:
+
+```bash
+../bin/python -m jupyter lab
+```
+
+Después abrir `notebook/Classification/Clasification.ipynb` y ejecutar las
+celdas en orden. La celda de evaluación recorre el campo experimental completo
+(648 configuraciones por satélite); puede tardar varios minutos. La semilla
+2021, el holdout 80/20 y los índices de los folds están fijados para que la
+comparación sea reproducible.
+
+También se puede generar una copia ejecutada con `nbconvert`:
+
+```bash
+../bin/python -m jupyter nbconvert \
+  --to notebook --execute notebook/Classification/Clasification.ipynb \
+  --output Clasification_ejecutado.ipynb \
+  --ExecutePreprocessor.timeout=-1 \
+  --ExecutePreprocessor.kernel_name=python3
+```
+
+La última sección del notebook reentrena los ganadores con el 80 % de cada
+dataset y guarda `models/landsat_best.joblib` y `models/modis_best.joblib`.
+
+## Ejecutar la aplicación web
+
+Desde la raíz de `IrradianceKernel`:
+
+```bash
+../bin/python web/app.py
+```
+
+Abrir <http://127.0.0.1:5000> en el navegador. La aplicación no entrena ni
+acepta modelos externos: carga exclusivamente los dos archivos de `models/`.
+
+La interfaz permite:
+
+1. Seleccionar dos modelos y comparar Accuracy, F1 macro, AUC OVR y MCC.
+2. Ver los puntos clasificados en mapas lado a lado.
+3. Cambiar la capa base entre calles de Esri, imagen satelital de Esri y
+   OpenStreetMap.
+4. Consultar con un clic el punto observado más cercano, su irradiancia y la
+   clase predicha por ambos modelos.
+5. Revisar matrices de confusión y la curva ROC o precisión-recall.
+
+API disponible:
+
+```text
+GET /api/models
+GET /api/compare?model_a=landsat_best&model_b=modis_best
+GET /api/point?satellite=landsat&lat=...&lon=...&model_a=...&model_b=...
+```
+
+## Publicar en GitHub
+
+Crear un repositorio público llamado `IrradianceKernel` y, desde esta carpeta,
+configurar el remoto con la URL propia:
+
+```bash
+git add README.md requirements.txt docs datasets models notebook web .gitignore
+git commit -m "feat: complete irradiance kernel deliverable"
+git branch -M main
+git remote add origin https://github.com/<usuario>/IrradianceKernel.git
+git push -u origin main
+```
+
+No se deben subir contraseñas, tokens, entornos virtuales, cachés ni copias
+temporales del notebook. El enlace al video puede añadirse en esta sección
+después de publicarlo:
+
+> **Video de demostración:** [pendiente de añadir enlace de YouTube]
+
+## Fuentes y atribución
+
+- Datasets: [landsat_model.csv](https://github.com/magohector/fkernel/blob/master/Experimentos/landsat_model.csv) y
+  [modis_model.csv](https://github.com/magohector/fkernel/blob/master/Experimentos/modis_model.csv).
+- Clases originales: [KSVM.py](https://github.com/magohector/fkernel/blob/master/Experimentos/KSVM.py) y
+  [KANN.py](https://github.com/magohector/fkernel/blob/master/Experimentos/KANN.py).
+- Capas cartográficas: Esri y OpenStreetMap, con atribución visible en cada
+  mapa.

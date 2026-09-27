@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comparador de irradiancia</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Inicio del comparador">
+        <span class="brand-mark">IK</span>
+        <span><b>Irradiance</b><small>Kernel Lab</small></span>
+      </a>
+      <span class="live-badge"><i></i> Modelos locales</span>
+    </header>
+
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Clasificación de irradiancia · Landsat + MODIS</p>
+        <h1>Compara tus modelos kernel con contexto geográfico.</h1>
+        <p>
+          Explora las observaciones reales, revisa las métricas del holdout y
+          consulta la clase predicha haciendo clic sobre cualquier punto.
+        </p>
+      </div>
+      <div class="hero-stats" aria-label="Resumen de la aplicación">
+        <div><strong>80/20</strong><span>holdout fijo</span></div>
+        <div><strong>4</strong><span>métricas</span></div>
+        <div><strong>2</strong><span>artefactos</span></div>
+      </div>
+    </header>
+
+    <section class="controls card">
+      <div class="section-heading">
+        <span class="section-kicker">01</span>
+        <div><h2>Selecciona dos modelos</h2><p>La comparación usa exactamente el mismo conjunto de evaluación.</p></div>
+      </div>
+      <div class="controls-row">
+        <div class="control-group">
+          <label for="model-a"><span class="model-tag model-tag-a">A</span> Modelo principal</label>
+          <select id="model-a" aria-describedby="status"></select>
+        </div>
+        <div class="versus" aria-hidden="true">VS</div>
+        <div class="control-group">
+          <label for="model-b"><span class="model-tag model-tag-b">B</span> Modelo de referencia</label>
+          <select id="model-b" aria-describedby="status"></select>
+        </div>
+        <button id="compare-button" class="primary-button" type="button" disabled>
+          <span class="button-label">Comparar modelos</span><span class="button-arrow">→</span>
+        </button>
+      </div>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="map-grid">
+      <article class="card map-card">
+        <div class="panel-heading">
+          <div>
+            <h2 id="map-a-title">Modelo A</h2>
+            <p id="map-a-subtitle"></p>
+          </div>
+          <span class="map-hint"><span class="hint-dot"></span> Clic para consultar</span>
+        </div>
+        <div id="map-a" class="map"></div>
+        <div class="map-footer"><div id="legend-a" class="map-legend"></div><span class="map-source">Capas base: Esri / OSM</span></div>
+      </article>
+      <article class="card map-card">
+        <div class="panel-heading">
+          <div>
+            <h2 id="map-b-title">Modelo B</h2>
+            <p id="map-b-subtitle"></p>
+          </div>
+          <span class="map-hint"><span class="hint-dot"></span> Clic para consultar</span>
+        </div>
+        <div id="map-b" class="map"></div>
+        <div class="map-footer"><div id="legend-b" class="map-legend"></div><span class="map-source">Capas base: Esri / OSM</span></div>
+      </article>
+    </section>
+
+    <section class="card metrics-card">
+      <div class="panel-heading section-heading">
+        <span class="section-kicker">02</span>
+        <div>
+          <h2>Métricas sobre el holdout</h2>
+          <p>El cálculo usa el mismo particionado 80/20 y semilla 2021 del notebook.</p>
+        </div>
+      </div>
+      <div id="metric-highlights" class="metric-highlights"></div>
+      <div id="metrics-table" class="table-wrap"></div>
+    </section>
+
+    <section class="detail-grid">
+      <article class="card">
+        <div class="section-heading compact-heading"><span class="section-kicker">03</span><div><h2>Matrices de confusión</h2><p>Filas: clase real · columnas: clase predicha.</p></div></div>
+        <div class="confusion-grid">
+          <div>
+            <h3 id="confusion-a-title">Modelo A</h3>
+            <div id="confusion-a" class="matrix-wrap"></div>
+          </div>
+          <div>
+            <h3 id="confusion-b-title">Modelo B</h3>
+            <div id="confusion-b" class="matrix-wrap"></div>
+          </div>
+        </div>
+      </article>
+      <article class="card">
+        <div class="section-heading compact-heading"><span class="section-kicker">04</span><div><h2>Curvas de evaluación</h2><p>La curva se elige según el balance de clases.</p></div></div>
+        <div class="curve-grid">
+          <div>
+            <h3 id="curve-a-title">Modelo A</h3>
+            <canvas id="curve-a" width="520" height="280"></canvas>
+          </div>
+          <div>
+            <h3 id="curve-b-title">Modelo B</h3>
+            <canvas id="curve-b" width="520" height="280"></canvas>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="card point-card">
+      <div class="section-heading compact-heading"><span class="section-kicker">05</span><div><h2>Consulta de un punto</h2><p id="point-placeholder">Haz clic sobre cualquiera de los mapas para ver el vecino observado más cercano.</p></div></div>
+      <div id="point-result"></div>
+    </section>
+
+    <footer>
+      <span>Los modelos se cargan desde <code>/models</code>.</span>
+      <span>La aplicación no entrena ni acepta modelos desde la interfaz.</span>
+    </footer>
+  </main>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

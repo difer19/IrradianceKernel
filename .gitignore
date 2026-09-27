@@ -7,3 +7,4 @@ htmlcov/
 .DS_Store
 artifacts/*.tmp
 artifacts/models/*.tmp
+*_ejecutado.ipynb
