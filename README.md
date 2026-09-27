@@ -79,7 +79,7 @@ dataset y guarda `models/landsat_best.joblib` y `models/modis_best.joblib`.
 Desde la raíz de `IrradianceKernel`:
 
 ```bash
-../bin/python web/app.py
+../bin/flask --app web/app.py run --debug
 ```
 
 Abrir <http://127.0.0.1:5000> en el navegador. La aplicación no entrena ni
@@ -103,22 +103,11 @@ GET /api/compare?model_a=landsat_best&model_b=modis_best
 GET /api/point?satellite=landsat&lat=...&lon=...&model_a=...&model_b=...
 ```
 
-## Publicar en GitHub
+## Video de demostración
 
-Crear un repositorio público llamado `IrradianceKernel` y, desde esta carpeta,
-configurar el remoto con la URL propia:
-
-```bash
-git add README.md requirements.txt docs datasets models notebook web .gitignore
-git commit -m "feat: complete irradiance kernel deliverable"
-git branch -M main
-git remote add origin https://github.com/<usuario>/IrradianceKernel.git
-git push -u origin main
-```
-
-No se deben subir contraseñas, tokens, entornos virtuales, cachés ni copias
-temporales del notebook. El enlace al video puede añadirse en esta sección
-después de publicarlo:
+El guion para el video de 1–2 minutos está en
+[`docs/video_script.md`](docs/video_script.md). Después de grabarlo, añadir el
+enlace de YouTube aquí:
 
 > **Video de demostración:** [pendiente de añadir enlace de YouTube]
 

@@ -10,7 +10,7 @@ Desde la raíz de `IrradianceKernel`:
 
 ```bash
 ../bin/python -m pip install -r web/requirements.txt
-../bin/python web/app.py
+../bin/flask --app web/app.py run --debug
 ```
 
 Después abrir <http://127.0.0.1:5000>.
@@ -19,7 +19,7 @@ Si se usa el entorno del proyecto activado:
 
 ```bash
 source ../../bin/activate
-python app.py
+flask --app app.py run --debug
 ```
 
 En ese segundo caso hay que ejecutar los comandos desde `web/`.
