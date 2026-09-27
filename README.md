@@ -78,9 +78,17 @@ dataset y guarda `models/landsat_best.joblib` y `models/modis_best.joblib`.
 
 Se puede abrir directamente desde
 [Google Colab](https://colab.research.google.com/github/difer19/IrradianceKernel/blob/main/notebook/Classification/Clasification.ipynb).
-La primera sección del notebook detecta que se está ejecutando en Colab, clona
-el repositorio en `/content/IrradianceKernel` y cambia a esa carpeta antes de
-cargar los CSV.
+La primera sección permite indicar manualmente la carpeta de Google Drive que
+contiene los dos CSV. Por ejemplo:
+
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+DATASET_DIR = '/content/drive/MyDrive/IrradianceKernel/datasets'
+```
+
+La ruta debe contener exactamente `landsat_model.csv` y `modis_model.csv`.
+Después se ejecutan las celdas en orden.
 
 Si Colab informa que falta alguna dependencia, ejecutar una vez en una celda:
 
