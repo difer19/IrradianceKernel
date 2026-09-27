@@ -1,10 +1,27 @@
+# Python y entornos locales
 __pycache__/
 *.py[cod]
+.venv/
+venv/
+env/
+.env
+
+# Pruebas y cobertura
 .pytest_cache/
-.ipynb_checkpoints/
 .coverage
+.coverage.*
 htmlcov/
+
+# Jupyter y archivos temporales
+.ipynb_checkpoints/
+*_ejecutado.ipynb
+*.tmp
+
+# IDE y sistema operativo
 .DS_Store
+.idea/
+.vscode/
+
+# Artefactos temporales de experimentos
 artifacts/*.tmp
 artifacts/models/*.tmp
-*_ejecutado.ipynb
