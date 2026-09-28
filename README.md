@@ -103,10 +103,11 @@ evaluación y volver a dejarlo en `True` para la entrega final.
 
 ## Ejecutar la aplicación web
 
-Desde la raíz de `IrradianceKernel`:
+Con el entorno ya activado, entra a la carpeta `web` y ejecuta Flask:
 
 ```bash
-../bin/flask --app web/app.py run --debug
+cd web
+flask run
 ```
 
 Abrir <http://127.0.0.1:5000> en el navegador. La aplicación no entrena ni

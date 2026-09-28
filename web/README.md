@@ -6,23 +6,14 @@ modelos desde la interfaz ni permite subir artefactos externos.
 
 ## Ejecución local
 
-Desde la raíz de `IrradianceKernel`:
+Con el entorno ya activado, desde la raíz de `IrradianceKernel` ejecuta:
 
 ```bash
-../bin/python -m pip install -r web/requirements.txt
-../bin/flask --app web/app.py run --debug
+cd web
+flask run
 ```
 
-Después abrir <http://127.0.0.1:5000>.
-
-Si se usa el entorno del proyecto activado:
-
-```bash
-source ../../bin/activate
-flask --app app.py run --debug
-```
-
-En ese segundo caso hay que ejecutar los comandos desde `web/`.
+Después abre <http://127.0.0.1:5000>.
 
 ## Funcionalidad
 
