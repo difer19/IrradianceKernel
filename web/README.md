@@ -10,10 +10,14 @@ Con el entorno ya activado, desde la raíz de `IrradianceKernel` ejecuta:
 
 ```bash
 cd web
-../../bin/python -m flask --app app run
+flask run
 ```
 
 Después abre <http://127.0.0.1:5000>.
+
+Si el entorno ya existía, instala de nuevo `requirements.txt`: incluye
+`cloudpickle` y la aplicación incorpora compatibilidad para modelos creados
+con versiones anteriores de NumPy.
 
 ## Funcionalidad
 

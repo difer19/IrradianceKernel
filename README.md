@@ -104,7 +104,7 @@ Con el entorno ya activado, entra a la carpeta `web` y ejecuta Flask:
 
 ```bash
 cd web
-../../bin/python -m flask --app app run
+flask run
 ```
 
 Abrir <http://127.0.0.1:5000> en el navegador. La aplicación no entrena ni
