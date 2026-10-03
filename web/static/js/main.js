@@ -130,7 +130,7 @@ function renderMap(model, key) {
     const position = [point.lat, point.lon];
     bounds.push(position);
     const color = palette[point.predicted_class % palette.length];
-    L.circleMarker(position, {
+    const marker = L.circleMarker(position, {
       radius: 5,
       color,
       fillColor: color,
@@ -141,6 +141,10 @@ function renderMap(model, key) {
       + `Irradiancia registrada: ${point.irradiance}<br>`
       + `EPSG:3857: (${point.x_epsg3857}, ${point.y_epsg3857})`
     ).addTo(map);
+    marker.on("click", (event) => {
+      L.DomEvent.stopPropagation(event);
+      queryPoint(model.satellite, point.lat, point.lon);
+    });
   });
   if (bounds.length) map.fitBounds(bounds, { padding: [18, 18] });
   else map.setView([0, 0], 2);
