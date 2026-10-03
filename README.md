@@ -11,9 +11,7 @@ y una aplicación Flask para el punto 6.
   enunciado: carga de datos, clases originales `KSVC`/`KANNC`,
   `KRidgeClassifier`, campo de pipelines y evaluación.
 - **Punto 6:** `web/`, junto con los modelos finales de `models/`.
-- **Video:** guion de demostración de 1–2 minutos en
-  [`docs/video_script.md`](docs/video_script.md). El enlace de YouTube se debe
-  añadir después de grabar el video.
+- **Video:** [demostración de la aplicación](https://drive.google.com/file/d/1tCrqnPoadLMvFX3WPgZNM3Io7D3-d6YT/view?usp=sharing).
 
 ## Estructura
 
@@ -24,7 +22,6 @@ IrradianceKernel/
 ├── notebook/Classification/           notebook de los puntos 1–5
 ├── notebook/Regression/               notebook orientativo existente
 ├── web/                               aplicación Flask del punto 6
-├── docs/video_script.md               guion para el video
 ├── requirements.txt                   dependencias reproducibles
 └── README.md
 ```
@@ -93,7 +90,7 @@ Después se ejecutan las celdas en orden.
 Si Colab informa que falta alguna dependencia, ejecutar una vez en una celda:
 
 ```python
-%pip install -q pandas numpy scikit-learn matplotlib joblib
+%pip install -q pandas numpy scikit-learn matplotlib joblib cloudpickle
 ```
 
 Después se ejecutan las celdas en orden. La evaluación completa (`RUN_FULL_GRID
@@ -107,7 +104,7 @@ Con el entorno ya activado, entra a la carpeta `web` y ejecuta Flask:
 
 ```bash
 cd web
-flask run
+../../bin/python -m flask --app app run
 ```
 
 Abrir <http://127.0.0.1:5000> en el navegador. La aplicación no entrena ni
@@ -123,6 +120,7 @@ La interfaz permite:
    clase predicha por ambos modelos.
 5. Revisar matrices de confusión y la curva ROC o precisión-recall.
 
+
 API disponible:
 
 ```text
@@ -133,11 +131,7 @@ GET /api/point?satellite=landsat&lat=...&lon=...&model_a=...&model_b=...
 
 ## Video de demostración
 
-El guion para el video de 1–2 minutos está en
-[`docs/video_script.md`](docs/video_script.md). Después de grabarlo, añadir el
-enlace de YouTube aquí:
-
-> **Video de demostración:** [pendiente de añadir enlace de YouTube]
+[Ver la demostración de la aplicación](https://drive.google.com/file/d/1tCrqnPoadLMvFX3WPgZNM3Io7D3-d6YT/view?usp=sharing).
 
 ## Fuentes y atribución
 

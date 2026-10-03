@@ -10,7 +10,7 @@ Con el entorno ya activado, desde la raíz de `IrradianceKernel` ejecuta:
 
 ```bash
 cd web
-flask run
+../../bin/python -m flask --app app run
 ```
 
 Después abre <http://127.0.0.1:5000>.
